@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('Voting', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger(column: 'id_name_owner');
-            $table->foreign(columns: 'id_name_owner')->references('id')->on('Owners');
-            $table->unsignedBigInteger(column: 'id_questions');
-            $table->foreign(columns: 'id_questions')->references('id')->on('Questions');
+            $table->unsignedBigInteger(column: 'name_owner_id');
+            $table->foreign(columns: 'name_owner_id')->references('id')->on('Owners');
+            $table->unsignedBigInteger(column: 'questions_id');
+            $table->foreign(columns: 'questions_id')->references('id')->on('Questions');
             $table->unsignedInteger(column: 'Result');
         });
     }

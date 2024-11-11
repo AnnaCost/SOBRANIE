@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('Owners', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger(column: 'id_apartment');
-            $table->foreign(columns: 'id_apartment')->references('id')->on('Apartment');
+            $table->unsignedBigInteger(column: 'apartment_id');
+            $table->foreign(columns: 'apartment_id')->references('id')->on('Apartment');
             $table->string(column: 'Name_owner');
             $table->unsignedInteger(column: 'Ownership_interest');
             $table->string(column: 'Password');
