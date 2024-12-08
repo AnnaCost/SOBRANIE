@@ -11,6 +11,8 @@ class meeting extends Model
 {
     use HasFactory;
     public $table = 'Meeting';
+    protected $fillable = ['dom_id', 'Date', 'Initiator'];
+    public $timestamps = false;
     public function Dom(): BelongsTo
     {
         return $this->belongsTo(dom::class);

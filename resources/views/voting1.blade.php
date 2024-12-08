@@ -12,15 +12,20 @@
             <td>ФИО собственника</td>
             <td>Вопрос</td>
             <td>Результат голосования</td>
+            <td>Действия</td>
         </thead>
-    @foreach ($Voting as $voting)
+    @foreach ($voting as $vote)
         <tr>
-            <td>{{$voting->id}}</td>
-            <td>{{$voting->owner ? $voting->owner->Name_owner : 'Не указано' }}</td>
-            <td>{{$voting->question ? $voting->question->Questions : 'Не указано' }}</td>
-            <td>{{$voting->Result}}</td>
+            <td>{{$vote->id}}</td>
+            <td>{{$vote->owner->Name_owner}}</td>
+            <td>{{$vote->question->Questions}}</td>
+            <td>{{$vote->Result}}</td>
+            <td><a href="{{url('voting/destroy/' .$vote->id)}}">Удалить</a>
+                <a href="{{url('voting/edit/' .$vote->id)}}">Редактировать</a>
+            </td>
         </tr>
     @endforeach
     </table>
+    {{$voting->links()}}
 </body>
 </html>

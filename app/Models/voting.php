@@ -11,12 +11,14 @@ class voting extends Model
 {
     use HasFactory;
     public $table = 'Voting';
-    public function Owners(): BelongsTo
+    protected $fillable = ['name_owner_id', 'questions_id', 'Result'];
+    public $timestamps = false;
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo (owner::class, 'name_owner_id', 'id');
+        return $this->belongsTo (Owner::class,'name_owner_id', 'id');
     }
-    public function Questions(): BelongsTo
+    public function question(): BelongsTo
     {
-        return $this->belongsTo(question::class, 'questions_id', 'id');
+        return $this->belongsTo(Question::class, 'questions_id', 'id');
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\voting;
+use App\Models\question;
+use App\Models\owner;
 use Illuminate\Http\Request;
 
 class votingController extends Controller
@@ -10,11 +12,12 @@ class votingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perpage = $request->perpage ?? 2;
         return view('voting1', [
-            'Voting' => voting::all()
-        ]);
+            'voting' => voting::with('owner','question')->paginate($perpage)->withQueryString(),
+            ]);
     }
 
     /**
@@ -22,7 +25,10 @@ class votingController extends Controller
      */
     public function create()
     {
-        //
+        return view('voting_create', [
+            'Questions' => question::all(),
+            'Owners' => owner::all()
+        ]);
     }
 
     /**
@@ -30,7 +36,15 @@ class votingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'Result' => 'required|integer',
+            'name_owner_id' => 'integer',
+            'questions_id' => 'integer'
+        ]);
+        $voting = new voting($validated);
+        $voting->save();
+        return redirect('/voting')->withErrors(['success' =>
+            'Результаты голосования успешно добавлены']);
     }
 
     /**
@@ -48,7 +62,11 @@ class votingController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('voting_edit', [
+            'voting' => voting::all()->where('id', $id)->first(),
+            'Owners' => owner::all(),
+            'Questions' => question::all()
+        ]);
     }
 
     /**
@@ -56,7 +74,17 @@ class votingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'Result' => 'required|max:255',
+            'name_owner_id' => 'integer',
+            'questions_id' => 'integer'
+        ]);
+        $voting = voting::all()->where('id', $id)->first();
+        $voting->Result = $validated['Result'];
+        $voting->name_owner_id = $validated['name_owner_id'];
+        $voting->questions_id = $validated['questions_id'];
+        $voting->save();
+        return redirect('/voting');
     }
 
     /**
@@ -64,6 +92,7 @@ class votingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        voting::destroy($id);
+        return redirect('/voting');
     }
 }

@@ -10,10 +10,11 @@ class domController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perpage = $request->perpage ?? 2;
         return view('dom1', [
-            'Dom' => dom::all()
+            'Dom' => dom::paginate($perpage)->withQueryString(),
         ]);
     }
 

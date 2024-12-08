@@ -13,6 +13,7 @@
             <td>Номер квартиры</td>
             <td>Количество собственников</td>
             <td>Личный аккаунт</td>
+            <td>Действия</td>
         </thead>
     @foreach ($Apartment as $apartment)
         <tr>
@@ -21,8 +22,12 @@
             <td>{{$apartment->Apartment}}</td>
             <td>{{$apartment->Numbers_owners}}</td>
             <td>{{$apartment->Personal_account}}</td>
+            <td><a href="{{url('apartment/destroy/' .$apartment->id)}}">Удалить</a>
+                <a href="{{url('apartment/edit/' .$apartment->id)}}">Редактировать</a>
+            </td>
         </tr>
     @endforeach
     </table>
+    {{$Apartment->links()}}
 </body>
 </html>

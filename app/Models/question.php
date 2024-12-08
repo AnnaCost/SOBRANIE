@@ -11,6 +11,8 @@ class question extends Model
 {
     use HasFactory;
     public $table = 'Questions';
+    protected $fillable = ['meeting_id', 'Questions'];
+    public $timestamps = false;
     public function Meeting(): BelongsTo
     {
         return $this->belongsTo(meeting::class);

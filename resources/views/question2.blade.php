@@ -13,11 +13,11 @@
             <th>ФИО собственника</th>
             <th>Результат голосования</th>
         </tr>
-        @foreach ($question->Voting as $voting)
+        @foreach ($question->voting as $vote)
             <tr>
-                <td>{{$voting->id}}</td>
-                <td>{{$voting->owner->Name_owner}}</td>
-                <td>{{$voting->Result}}</td>
+                <td>{{$vote->id}}</td>
+                <td>{{$vote->owner->Name_owner}}</td>
+                <td>{{$vote->Result}}</td>
             </tr>
         @endforeach
     </table>

@@ -13,6 +13,7 @@
             <td>ФИО собственника</td>
             <td>Доля собственника</td>
             <td>Пароль</td>
+            <td>Действия</td>
         </thead>
     @foreach ($Owners as $owner)
         <tr>
@@ -21,8 +22,12 @@
             <td>{{$owner->Name_owner}}</td>
             <td>{{$owner->Ownership_interest}}</td>
             <td>{{$owner->Password}}</td>
+            <td><a href="{{url('owner/destroy/' .$owner->id)}}">Удалить</a>
+                <a href="{{url('owner/edit/' .$owner->id)}}">Редактировать</a>
+            </td>
         </tr>
     @endforeach
     </table>
+    {{$Owners->links()}}
 </body>
 </html>

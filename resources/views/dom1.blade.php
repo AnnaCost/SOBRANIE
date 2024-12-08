@@ -20,5 +20,6 @@
         </tr>
     @endforeach
     </table>
+    {{$Dom->links()}}
 </body>
 </html>
