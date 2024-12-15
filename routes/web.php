@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\domController;
 use App\Http\Controllers\apartmentController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\meetingController;
 use App\Http\Controllers\votingController;
 use App\Http\Controllers\ownerController;
@@ -61,6 +62,26 @@ Route::get('/voting/{id}', [votingController::class, 'show']);
 Route::get('/voting/edit/{id}', [votingController::class, 'edit']);
 Route::post('/voting/update/{id}', [votingController::class, 'update']);
 Route::get('/voting/destroy/{id}', [votingController::class, 'destroy']);
+
+Route::get('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout']);
+Route::post('/auth', [LoginController::class, 'authenticate']);
+
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+
+Route::get('/meeting/create', [meetingController::class, 'create'])->middleware('auth');
+Route::get('/meeting/edit/{id}', [meetingController::class, 'edit'])->middleware('auth');
+Route::post('/meeting/update/{id}', [meetingController::class, 'update'])->middleware('auth');
+Route::get('/meeting/destroy/{id}', [meetingController::class, 'destroy'])->middleware('auth');
+
+Route::get('/error', function () {
+    return view('error', ['message' => session('message')]);
+});
+
+
+
+
+
 
 Route::get('/', function () {
     return view('welcome');

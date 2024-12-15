@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\apartment;
 use App\Models\dom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class apartmentController extends Controller
 {
@@ -90,6 +91,10 @@ class apartmentController extends Controller
      */
     public function destroy(string $id)
     {
+        if (! Gate::allows('destroy-apartment', apartment::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message',
+            'У Вас нет разрешения на удаление жилого помещения' . $id);
+        }
         apartment::destroy($id);
         return redirect('/apartment');
     }

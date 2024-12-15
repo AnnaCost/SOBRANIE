@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\apartment;
 use App\Models\voting;
 use App\Models\question;
 use App\Models\owner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class votingController extends Controller
 {
@@ -25,7 +27,7 @@ class votingController extends Controller
      */
     public function create()
     {
-        return view('voting_create', [
+            return view('voting_create', [
             'Questions' => question::all(),
             'Owners' => owner::all()
         ]);
@@ -62,6 +64,10 @@ class votingController extends Controller
      */
     public function edit(string $id)
     {
+        if (! Gate::allows('edit-voting', voting::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message',
+                'У Вас нет разрешения на редактирование результатов голосования' . $id);
+        }
         return view('voting_edit', [
             'voting' => voting::all()->where('id', $id)->first(),
             'Owners' => owner::all(),
@@ -92,7 +98,12 @@ class votingController extends Controller
      */
     public function destroy(string $id)
     {
+        if (! Gate::allows('destroy-voting', voting::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message',
+                'У Вас нет разрешения на удаление результата голосования' . $id);
+        }
         voting::destroy($id);
         return redirect('/voting');
     }
+
 }
